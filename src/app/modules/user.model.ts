@@ -1,6 +1,7 @@
 import { Schema, model } from 'mongoose';
 import { Address, FullName, User } from './user/user.interface';
 
+
 const fullNameSchema = new Schema<FullName>({
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
@@ -32,5 +33,7 @@ const userSchema = new Schema<User>({
         required:false,
     },
 })
+
+
 
 export const UserModel = model<User>('User', userSchema); //mongo db collection name users. by default s added
