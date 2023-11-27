@@ -1,6 +1,7 @@
 import { Schema, model } from 'mongoose';
 import { TAddress, TFullName, TUser, UserMethods, UserModel } from './user/user.interface';
-
+import bcrypt from 'bcrypt';
+import config from '../config';
 
 const fullNameSchema = new Schema<TFullName>({
     firstName: { type: String, required: true },
@@ -30,14 +31,32 @@ const userSchema = new Schema<TUser, UserModel, UserMethods>({ //receiving insta
     isDeleted: {
         type: Boolean,
         default: false,
-        required:false,
+        required: false,
     },
 })
 
+//pre hook for hashing password
+userSchema.pre('save', async function (next) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const user = this;
+    user.password = await bcrypt.hash(
+        user.password,
+        Number(config.bcrypt_salt_rounds),
+    );
+    next();
+});
+
+//post hook to show empty password in DB
+userSchema.post('save', function (doc, next) {
+    doc.password = '';
+    next();
+  });
+
+
 
 //instance
-userSchema.methods.isUserExist = async function (userId:string) {
-    const existingUser = await User.findOne({userId})
+userSchema.methods.isUserExist = async function (userId: string) {
+    const existingUser = await User.findOne({ userId })
     return existingUser;
 }
 
