@@ -11,5 +11,6 @@ router.delete('/api/users/:userId', UserController.deleteUser);
 
 //orders
 router.put('/api/users/:userId/orders', UserController.addOrder);
+router.get('/api/users/:userId/orders', UserController.getSingleUserOrder);
 
 export const UserRoutes = router;

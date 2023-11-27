@@ -77,6 +77,14 @@ const addOrdersToDB = async (userId: string, addOrderDataInDB: AddOrderData) => 
     }
 }
 
+const getSingleUsersOrdersFromDB = async (userId: string) => {
+    const result = await User.findOne({ userId }).select({orders:1});
+    if (!result) {
+        throw new Error('User not found');
+    }
+    return result;
+}
+
 export const UserServices = {
     createUserIntoDB,
     getAllUsersFromDB,
@@ -84,4 +92,5 @@ export const UserServices = {
     updateSingleUserToDB,
     deleteUserFromDB,
     addOrdersToDB,
+    getSingleUsersOrdersFromDB
 }
