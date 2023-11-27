@@ -20,14 +20,14 @@ const ordersSchema = new Schema<TOrder>({
 })
 
 const userSchema = new Schema<TUser, UserModel, UserMethods>({ //receiving instance value from user.interface.ts
-    userId: { type: Number, unique: true, required: true },
-    username: { type: String,  required: true, unique: true },
+    userId: { type: Number, unique:true, required: true},
+    username: { type: String, unique:true, required: true},
     password: { type: String, required: true },
     fullName: {
         type: fullNameSchema,
     },
     age: { type: Number, required: true },
-    email: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique:true },
     isActive: { type: Boolean, default: true, required: true },
     hobbies: { type: [String], required: true },
     address: {
