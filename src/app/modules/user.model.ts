@@ -1,18 +1,18 @@
 import { Schema, model } from 'mongoose';
-import { Address, FullName, User } from './user/user.interface';
+import { TAddress, TFullName, TUser, UserMethods, UserModel } from './user/user.interface';
 
 
-const fullNameSchema = new Schema<FullName>({
+const fullNameSchema = new Schema<TFullName>({
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
 })
-const addressSchema = new Schema<Address>({
+const addressSchema = new Schema<TAddress>({
     street: { type: String, required: true },
     city: { type: String, required: true },
     country: { type: String, required: true },
 })
 
-const userSchema = new Schema<User>({
+const userSchema = new Schema<TUser, UserModel, UserMethods>({ //receiving instance value from user.interface.ts
     userId: { type: Number, unique: true, required: true },
     username: { type: String, unique: true, required: true },
     password: { type: String, required: true },
@@ -36,4 +36,4 @@ const userSchema = new Schema<User>({
 
 
 
-export const UserModel = model<User>('User', userSchema); //mongo db collection name users. by default s added
+export const User = model<TUser>('User', userSchema); //mongo db collection name users. by default s added

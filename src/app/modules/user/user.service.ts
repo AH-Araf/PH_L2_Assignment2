@@ -1,14 +1,14 @@
-import { UserModel } from "../user.model";
-import { User } from "./user.interface";
+import { User } from "../user.model";
+import { TUser } from "./user.interface";
 
-const createUserIntoDB = async (user: User) => {
-    const r = await UserModel.create(user);
+const createUserIntoDB = async (user: TUser) => {
+    const r = await User.create(user);
     const result = { ...r.toObject(), password: undefined };
     return result;
 }
 
 const getAllUsersFromDB = async () => {
-    const result = await UserModel.find().select({
+    const result = await User.find().select({
         username: 1,
         'fullName.firstName': 1,
         'fullName.lastName': 1,
@@ -23,7 +23,7 @@ const getAllUsersFromDB = async () => {
     return result;
 }
 const getSingleUserFromDB = async (userId: string) => {
-    const result = await UserModel.findOne({ userId }).select('-password');
+    const result = await User.findOne({ userId }).select('-password');
     if (!result) {
         throw new Error('User not found');
     }
@@ -32,7 +32,7 @@ const getSingleUserFromDB = async (userId: string) => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const updateSingleUserToDB = async (userId: string, updatedUserBodyDataInDB: any) => {
-    const result = await UserModel.findOneAndUpdate({ userId }, updatedUserBodyDataInDB, { new: true, runValidators: true }).select('-password');
+    const result = await User.findOneAndUpdate({ userId }, updatedUserBodyDataInDB, { new: true, runValidators: true }).select('-password');
     if (!result) {
         throw new Error('User not found');
     }
@@ -40,7 +40,7 @@ const updateSingleUserToDB = async (userId: string, updatedUserBodyDataInDB: any
 }
 
 const deleteUserFromDB = async (userId: string) => {
-    const result = await UserModel.updateOne({ userId }, { isDeleted: true });
+    const result = await User.updateOne({ userId }, { isDeleted: true });
     if (result.modifiedCount > 0) {
         return {
             success: true,
