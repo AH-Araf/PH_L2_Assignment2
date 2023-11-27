@@ -9,10 +9,10 @@ app.use(express.json());
 app.use(cors());
 
 
-app.use('/api/v1/users', UserRoutes)
+app.use('/', UserRoutes)
 
-app.get('/api/v1/users', (req:Request, res:Response) => {
-  res.send('Hello World!')
+app.get('/', (req:Request, res:Response) => {
+  res.send('AssignmentTwo')
 })
 
 export default app;
