@@ -45,14 +45,22 @@ userSchema.pre('save', async function (next) {
     );
     next();
 });
-
 //post hook to show empty password in DB
 userSchema.post('save', function (doc, next) {
     doc.password = '';
     next();
-  });
+});
 
 
+//Query middleware for hide deleted data //without deleting data seems like deleted
+userSchema.pre('find', function (next) {
+    this.find({ isDeleted: { $ne: true } });
+    next();
+});
+userSchema.pre('findOne', function (next) {
+    this.find({ isDeleted: { $ne: true } });
+    next();
+});
 
 //instance
 userSchema.methods.isUserExist = async function (userId: string) {
