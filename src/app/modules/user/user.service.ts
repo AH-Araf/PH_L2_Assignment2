@@ -5,6 +5,20 @@ type AddOrderData = {
     price: number;
     quantity: number;
 };
+type UserOrder = {
+    success: true;
+    message: 'Total price calculated successfully!';
+    data: {
+        totalPrice: number;
+    };
+} | {
+    success: false;
+    message: 'User not found';
+    error: {
+        code: 404;
+        description: 'User not found!';
+    };
+};
 
 const createUserIntoDB = async (user: TUser) => {
     const r = await User.create(user);
@@ -85,6 +99,43 @@ const getSingleUsersOrdersFromDB = async (userId: string) => {
     return result;
 }
 
+
+
+
+const getTotalPriceFromDB = async (userId: string): Promise<UserOrder> => {
+    try {
+        const user = await User.findOne({ userId }).select({
+            'orders.price': 1,
+            'orders.quantity': 1,
+        });
+        if (!user) {
+            throw new Error('User not found');
+        }
+        const totalPrice = user?.orders?.reduce((x, order) => x + order.price * order.quantity, 0) || 0;
+
+        return {
+            success: true,
+            message: 'Total price calculated successfully!',
+            data: {
+                totalPrice,
+            },
+        };
+    } catch (error) {
+        console.error(error);
+        return {
+            success: false,
+            message: 'User not found',
+            error: {
+                code: 404,
+                description: 'User not found!',
+            },
+        };
+    }
+};
+
+
+
+
 export const UserServices = {
     createUserIntoDB,
     getAllUsersFromDB,
@@ -92,5 +143,6 @@ export const UserServices = {
     updateSingleUserToDB,
     deleteUserFromDB,
     addOrdersToDB,
-    getSingleUsersOrdersFromDB
+    getSingleUsersOrdersFromDB,
+    getTotalPriceFromDB
 }

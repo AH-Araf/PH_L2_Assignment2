@@ -40,10 +40,12 @@ const userSchema = new Schema<TUser, UserModel, UserMethods>({ //receiving insta
         required: false,
     },
     orders: [{
-        type:ordersSchema,
+        type: ordersSchema,
         required: false,
     }],
-})
+},
+)
+
 
 //pre hook for hashing password
 userSchema.pre('save', async function (next) {

@@ -214,7 +214,23 @@ const getSingleUserOrder = async (req: Request, res: Response) => {
     }
 }
 
-
+//Total Price
+const TotalPrice = async (req: Request, res: Response) => {
+    try {
+        const { userId } = req.params;
+        const result = await UserServices.getTotalPriceFromDB(userId);
+        res.status(result.success ? 200 : 404).json(result);
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'User not found!',
+            error: {
+                code: 404,
+                description: 'User not found!',
+            },
+        });
+    }
+};
 
 export const UserController = {
     createUser,
@@ -223,5 +239,6 @@ export const UserController = {
     updateUser,
     deleteUser,
     addOrder,
-    getSingleUserOrder
+    getSingleUserOrder,
+    TotalPrice,
 }
