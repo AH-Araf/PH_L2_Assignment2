@@ -21,3 +21,21 @@
 
 5. Now command "npm run start:dev" to run the project locally.
 
+* **Live deployment link:** </br>
+https://bright-red-millipede.cyclic.app</br>
+
+* **Endpoints of this project-** </br>
+//users </br>
+post- '/api/users' </br>
+get- '/api/users' </br>
+get- '/api/users/:userId' </br>
+put- '/api/users/:userId' </br>
+delete- '/api/users/:userId' </br>
+
+//orders </br>
+put- '/api/users/:userId/orders' </br>
+get- '/api/users/:userId/orders' </br>
+get- '/api/users/:userId/orders/total-price' </br>
+
+* **Example** </br>
+https://bright-red-millipede.cyclic.app/api/users</br>
