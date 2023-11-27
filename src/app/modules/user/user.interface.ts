@@ -27,7 +27,8 @@ export type TUser = {
 
 //Instance
 export type UserMethods = {
-  isUserExist(userId: string): Promise<TUser>
+  // eslint-disable-next-line no-unused-vars
+  isUserExist(userId: string): Promise<TUser | null>
 }
 export type UserModel = Model<
 TUser, 

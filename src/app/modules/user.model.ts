@@ -35,5 +35,10 @@ const userSchema = new Schema<TUser, UserModel, UserMethods>({ //receiving insta
 })
 
 
+//instance
+userSchema.methods.isUserExist = async function (userId:string) {
+    const existingUser = await User.findOne({userId})
+    return existingUser;
+}
 
-export const User = model<TUser>('User', userSchema); //mongo db collection name users. by default s added
+export const User = model<TUser, UserModel>('User', userSchema); //mongo db collection name users. by default s added
