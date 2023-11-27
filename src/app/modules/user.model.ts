@@ -21,7 +21,7 @@ const ordersSchema = new Schema<TOrder>({
 
 const userSchema = new Schema<TUser, UserModel, UserMethods>({ //receiving instance value from user.interface.ts
     userId: { type: Number, unique: true, required: true },
-    username: { type: String, unique: true, required: true },
+    username: { type: String,  required: true, unique: true },
     password: { type: String, required: true },
     fullName: {
         type: fullNameSchema,
