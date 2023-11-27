@@ -91,13 +91,13 @@ const updateUser = async (req: Request, res: Response) => {
     try {
         const { userId } = req.params;
         const updatedUserBodyDataInDB = req.body;
-        const updatedUser = await UserServices.updateSingleUserToDB(userId, updatedUserBodyDataInDB);
+        const result = await UserServices.updateSingleUserToDB(userId, updatedUserBodyDataInDB);
 
-        if (updatedUser !== null) {
+        if (result !== null) {
             res.status(200).json({
                 success: true,
                 message: 'User updated successfully!',
-                data: updatedUser,
+                data: result,
             });
         } else {
             res.status(404).json({
@@ -142,6 +142,43 @@ const deleteUser = async (req: Request, res: Response) => {
 };
 
 
+//add order in orders filed
+const addOrder = async (req: Request, res: Response) => {
+    try {
+        const { userId } = req.params;
+        const { productName, price, quantity } = req.body;
+
+        const addOrderDataInDBa = { productName, price, quantity };
+        const result = await UserServices.addOrdersToDB(userId, addOrderDataInDBa);
+
+        if (result) {
+            res.status(200).json({
+                success: true,
+                message: 'Order added successfully!',
+                data: null,
+            });
+        } else {
+            res.status(404).json({
+                success: false,
+                message: 'User not found',
+                error: {
+                    code: 404,
+                    description: 'User not found!',
+                },
+            });
+        }
+    } catch (error) {
+        res.status(404).json({
+            success: false,
+            message: 'User not found',
+            error: {
+                code: 404,
+                description: 'User not found!',
+            },
+        });
+    }
+};
+
 
 
 export const UserController = {
@@ -149,5 +186,6 @@ export const UserController = {
     getAllUsers,
     getSingleUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    addOrder
 }

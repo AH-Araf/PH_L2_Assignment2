@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { TAddress, TFullName, TUser, UserMethods, UserModel } from './user/user.interface';
+import { TAddress, TFullName, TOrder, TUser, UserMethods, UserModel } from './user/user.interface';
 import bcrypt from 'bcrypt';
 import config from '../config';
 
@@ -11,6 +11,12 @@ const addressSchema = new Schema<TAddress>({
     street: { type: String, required: true },
     city: { type: String, required: true },
     country: { type: String, required: true },
+})
+
+const ordersSchema = new Schema<TOrder>({
+    productName: { type: String, required: true },
+    price: { type: Number, required: true },
+    quantity: { type: Number, required: true },
 })
 
 const userSchema = new Schema<TUser, UserModel, UserMethods>({ //receiving instance value from user.interface.ts
@@ -33,6 +39,10 @@ const userSchema = new Schema<TUser, UserModel, UserMethods>({ //receiving insta
         default: false,
         required: false,
     },
+    orders: [{
+        type:ordersSchema,
+        required: false,
+    }],
 })
 
 //pre hook for hashing password
